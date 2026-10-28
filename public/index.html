@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HackTeam Portal - Hackathon Team Formation</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-dark glass-nav sticky-top"><div class="container">
+  <span class="navbar-brand fw-bold"><i class="bi bi-rocket-takeoff-fill me-2 text-warning"></i>HackTeam</span>
+  <button id="themeBtn" class="btn btn-sm btn-outline-light rounded-pill"><i class="bi bi-moon-stars-fill"></i> Theme</button>
+</div></nav>
+
+<header class="hero text-center"><div class="container position-relative">
+  <img class="float" style="left:6%;top:-20px" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ava" alt="">
+  <img class="float" style="right:8%;top:10px;animation-delay:1s" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Leo" alt="">
+  <img class="float d-none d-md-block" style="left:16%;bottom:-30px;animation-delay:2s" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mia" alt="">
+  <img class="float d-none d-md-block" style="right:18%;bottom:-40px;animation-delay:3s" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Zed" alt="">
+  <h1>Build the <span class="text-warning">dream team</span><br>for your next hackathon</h1>
+  <p class="lead mb-4 opacity-75">Balanced teams, smart matching and instant auto-building, powered by your skills.</p>
+  <button class="btn btn-grad btn-lg rounded-pill px-4 me-2" data-go="#registerTab"><i class="bi bi-person-plus"></i> Get Started</button>
+  <button class="btn btn-outline-light btn-lg rounded-pill px-4" data-go="#matchTab"><i class="bi bi-magic"></i> Smart Match</button>
+</div></header>
+
+<div class="container stat-wrap"><div class="row g-3 text-center">
+  <div class="col-6 col-md-3"><div class="card stat p-3"><div class="num" data-key="participants">0</div><div class="text-muted small"><i class="bi bi-people"></i> Participants</div></div></div>
+  <div class="col-6 col-md-3"><div class="card stat p-3"><div class="num" data-key="teams">0</div><div class="text-muted small"><i class="bi bi-diagram-3"></i> Teams</div></div></div>
+  <div class="col-6 col-md-3"><div class="card stat p-3"><div class="num" data-key="openSpots">0</div><div class="text-muted small"><i class="bi bi-door-open"></i> Open Spots</div></div></div>
+  <div class="col-6 col-md-3"><div class="card stat p-3"><div class="num" data-key="avgBalance">0</div><div class="text-muted small"><i class="bi bi-speedometer2"></i> Avg Balance Score</div></div></div>
+</div></div>
+
+<main class="container my-5">
+  <ul class="nav nav-pills justify-content-center gap-1 mb-4 flex-wrap" id="mainTabs">
+    <li><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#teamsTab"><i class="bi bi-grid"></i> Teams</button></li>
+    <li><button class="nav-link" data-bs-toggle="pill" data-bs-target="#matchTab"><i class="bi bi-magic"></i> Smart Match</button></li>
+    <li><button class="nav-link" data-bs-toggle="pill" data-bs-target="#autoTab"><i class="bi bi-cpu"></i> Auto Builder</button></li>
+    <li><button class="nav-link" data-bs-toggle="pill" data-bs-target="#registerTab"><i class="bi bi-person-plus"></i> Register</button></li>
+    <li><button class="nav-link" data-bs-toggle="pill" data-bs-target="#createTab"><i class="bi bi-plus-circle"></i> Create Team</button></li>
+    <li><button class="nav-link" data-bs-toggle="pill" data-bs-target="#peopleTab"><i class="bi bi-person-lines-fill"></i> Participants</button></li>
+  </ul>
+  <div class="toast-box" id="alertBox"></div>
+
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="teamsTab">
+      <div class="row g-3 mb-3">
+        <div class="col-md-8"><input id="teamSearch" class="form-control form-control-lg" placeholder="Search by team, hackathon or technology..."></div>
+        <div class="col-md-4"><select id="teamSort" class="form-select form-select-lg"><option value="new">Newest</option><option value="bal">Best balanced</option><option value="spots">Most open spots</option></select></div>
+      </div>
+      <div class="card p-3 mb-4"><h6 class="mb-3"><i class="bi bi-bar-chart-fill text-primary"></i> Talent Pool by Role</h6><div id="roleBars"></div></div>
+      <div class="row g-4" id="teamList"></div>
+    </div>
+
+    <div class="tab-pane fade" id="matchTab">
+      <div class="card shadow-sm mx-auto mb-4" style="max-width:640px"><div class="card-body p-4">
+        <h4><i class="bi bi-magic text-primary"></i> Smart Match</h4>
+        <p class="text-muted">Enter your registered email and we rank open teams by skill fit, role needs and experience mix.</p>
+        <form id="matchForm" class="d-flex gap-2" novalidate>
+          <input name="email" type="email" class="form-control" placeholder="you@example.com" required>
+          <button class="btn btn-grad px-4">Match</button>
+        </form>
+      </div></div>
+      <div class="row g-4" id="matchList"></div>
+    </div>
+
+    <div class="tab-pane fade" id="autoTab">
+      <div class="card shadow-sm mx-auto mb-4" style="max-width:640px"><div class="card-body p-4">
+        <h4><i class="bi bi-cpu text-primary"></i> Auto Team Builder</h4>
+        <p class="text-muted">Groups everyone who has no team into role-balanced teams. Preview first, then save.</p>
+        <form id="autoForm" novalidate>
+          <div class="row g-3 mb-3">
+            <div class="col-md-8"><label class="form-label">Hackathon</label><input name="hackathon" class="form-control" required minlength="3" maxlength="60"><div class="invalid-feedback">Enter hackathon name (3-60 chars).</div></div>
+            <div class="col-md-4"><label class="form-label">Team size</label><input name="teamSize" type="number" class="form-control" min="2" max="6" value="4" required><div class="invalid-feedback">2 to 6.</div></div>
+          </div>
+          <button class="btn btn-outline-primary me-2" data-save="false"><i class="bi bi-eye"></i> Preview</button>
+          <button class="btn btn-grad" data-save="true"><i class="bi bi-lightning-charge"></i> Build &amp; Save</button>
+        </form>
+      </div></div>
+      <div class="row g-4" id="autoResult"></div>
+    </div>
+
+    <div class="tab-pane fade" id="registerTab">
+      <div class="row justify-content-center g-4 align-items-center">
+        <div class="col-lg-5 d-none d-lg-block text-center"><img id="regAvatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=you" class="img-fluid" style="max-width:300px" alt=""><p class="text-muted">Your avatar updates as you type your name.</p></div>
+        <div class="col-lg-6"><div class="card shadow-sm"><div class="card-body p-4">
+          <h4 class="mb-3">Participant Registration</h4>
+          <form id="registerForm" novalidate>
+            <div class="mb-3"><label class="form-label">Full Name</label><input name="name" class="form-control" required minlength="2" maxlength="50" pattern="[A-Za-z .'\-]+"><div class="invalid-feedback">Letters only, 2-50 chars.</div></div>
+            <div class="mb-3"><label class="form-label">Email</label><input name="email" type="email" class="form-control" required><div class="invalid-feedback">Enter a valid email.</div></div>
+            <div class="row"><div class="col-md-6 mb-3"><label class="form-label">Primary Role</label><select name="role" class="form-select" required><option value="">Choose...</option><option>Frontend</option><option>Backend</option><option>Full Stack</option><option>Designer</option><option>Data/AI</option><option>Other</option></select><div class="invalid-feedback">Select a role.</div></div>
+            <div class="col-md-6 mb-3"><label class="form-label">Experience</label><select name="experience" class="form-select" required><option value="">Choose...</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select><div class="invalid-feedback">Select level.</div></div></div>
+            <div class="mb-3"><label class="form-label">Skills (comma separated)</label><input name="skills" class="form-control" required placeholder="React, Node.js, MongoDB"><div class="invalid-feedback">Enter at least one skill.</div></div>
+            <div class="mb-3"><label class="form-label">Short Bio</label><textarea name="bio" class="form-control" rows="2" maxlength="300"></textarea></div>
+            <button class="btn btn-grad w-100">Register</button>
+          </form>
+        </div></div></div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="createTab">
+      <div class="card shadow-sm mx-auto" style="max-width:680px"><div class="card-body p-4">
+        <h4 class="mb-3">Create a Team</h4>
+        <form id="teamForm" novalidate>
+          <div class="row"><div class="col-md-6 mb-3"><label class="form-label">Team Name</label><input name="name" class="form-control" required minlength="3" maxlength="40"><div class="invalid-feedback">3-40 characters.</div></div>
+          <div class="col-md-6 mb-3"><label class="form-label">Hackathon</label><input name="hackathon" class="form-control" required minlength="3" maxlength="60"><div class="invalid-feedback">3-60 characters.</div></div></div>
+          <div class="mb-3"><label class="form-label">Project Idea</label><textarea name="description" class="form-control" rows="3" required minlength="10" maxlength="500"></textarea><div class="invalid-feedback">10-500 characters.</div></div>
+          <div class="row"><div class="col-md-4 mb-3"><label class="form-label">Max Size</label><input name="maxSize" type="number" class="form-control" min="2" max="6" value="4" required><div class="invalid-feedback">2 to 6.</div></div>
+          <div class="col-md-8 mb-3"><label class="form-label">Tech Stack (comma separated)</label><input name="techStack" class="form-control" required placeholder="Node.js, React"><div class="invalid-feedback">Enter at least one.</div></div></div>
+          <div class="mb-3"><label class="form-label d-block">Roles you are looking for</label>
+            <div id="roleChecks"></div></div>
+          <div class="mb-3"><label class="form-label">Your Registered Email (leader)</label><input name="leaderEmail" type="email" class="form-control" required><div class="invalid-feedback">Enter your registered email.</div></div>
+          <button class="btn btn-grad w-100">Create Team</button>
+        </form>
+      </div></div>
+    </div>
+
+    <div class="tab-pane fade" id="peopleTab">
+      <input id="skillSearch" class="form-control form-control-lg mb-3" placeholder="Filter participants by skill...">
+      <div class="row g-4" id="peopleList"></div>
+    </div>
+  </div>
+</main>
+
+<div class="modal fade" id="joinModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <form id="joinForm" novalidate>
+    <div class="modal-header"><h5 class="modal-title"><span id="joinMode">Join</span> <span id="joinTeamName"></span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body"><label class="form-label">Your Registered Email</label><input name="email" type="email" class="form-control" required><div class="invalid-feedback">Enter a valid registered email.</div></div>
+    <div class="modal-footer"><button class="btn btn-grad">Confirm</button></div>
+  </form>
+</div></div></div>
+
+<footer class="text-center text-muted py-4 small">HackTeam Portal &middot; Node.js + Express + MongoDB</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
